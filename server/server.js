@@ -30,6 +30,10 @@ io.on('connection',(socket)=>{
 
   socket.on('createMessage',(message)=>{
     console.log("message",message);
+    io.emit('newMessage',{
+      from: 'abhi@gmail.com',
+      text: 'this should work'
+    })
   })
   socket.on('disconnect',()=>{
     console.log('User was disconnected.');
