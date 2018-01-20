@@ -21,8 +21,8 @@ io.on('connection',(socket)=>{
 
   socket.emit('newMessage',{
     from: 'abhishek@gmail.com',
-    text: 'Het, What is going on',
-    createAt: 123
+    text: 'See you then',
+    createdAt: 123123
   });
   // socket.on('createEmail',(newEmail)=>{
   //   console.log('createEmail',newEmail);
@@ -31,8 +31,9 @@ io.on('connection',(socket)=>{
   socket.on('createMessage',(message)=>{
     console.log("message",message);
     io.emit('newMessage',{
-      from: 'abhi@gmail.com',
-      text: 'this should work'
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
     })
   })
   socket.on('disconnect',()=>{
