@@ -13,29 +13,31 @@ app.use(express.static(publicPath));
 
 io.on('connection',(socket)=>{
   console.log('New user connected');
-  // socket.emit('newEmail',{
-  //   from: 'abhishek@gmail.com',
-  //   text: 'Het, What is going on',
-  //   createAt: 123
-  // });
 
   socket.emit('newMessage',{
-    from: 'abhishek@gmail.com',
-    text: 'See you then',
-    createdAt: 123123
+    from: 'Admin',
+    text: 'Welcome to the chat app'
   });
-  // socket.on('createEmail',(newEmail)=>{
-  //   console.log('createEmail',newEmail);
-  // });
+  socket.broadcast.emit('newMessage',{
+    from:'Admin',
+    text:'New user joined',
+    createdAt: new Date().getTime()
+  });
 
-  socket.on('createMessage',(message)=>{
-    console.log("message",message);
+  socket.on('createMessage',(message,callback)=>{
+    console.log("createMessage",message);
     io.emit('newMessage',{
       from: message.from,
       text: message.text,
       createdAt: new Date().getTime()
-    })
-  })
+    });
+    callback("Received");
+    // socket.broadcast.emit('newMessage',{
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // });
+  });
   socket.on('disconnect',()=>{
     console.log('User was disconnected.');
   });
@@ -44,5 +46,3 @@ io.on('connection',(socket)=>{
 server.listen(port,()=>{
   console.log(`Server is up on port ${port}`);
 });
-
-// module.exports.app=app;
